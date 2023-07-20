@@ -6,5 +6,6 @@ checkpoints/*
 **/__pycache__
 .vscode
 acronym/*
+!acronym/*.py
 
 *.pt
