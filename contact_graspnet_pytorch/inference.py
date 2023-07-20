@@ -88,7 +88,7 @@ def inference(global_config,
 if __name__ == "__main__":
 
     parser = argparse.ArgumentParser()
-    parser.add_argument('--ckpt_dir', default='checkpoints/contact_graspnet', help='Log dir')
+    parser.add_argument('--ckpt_dir', default='checkpoints/contact_graspnet_Y2023M07D20_H12M43', help='Log dir')
     parser.add_argument('--np_path', default='test_data/7.npy', help='Input data: npz/npy file with keys either "depth" & camera matrix "K" or just point cloud "pc" in meters. Optionally, a 2D "segmap"')
     parser.add_argument('--K', default=None, help='Flat Camera Matrix, pass as "[fx, 0, cx, 0, fy, cy, 0, 0 ,1]"')
     parser.add_argument('--z_range', default=[0.2,1.8], help='Z value threshold to crop the input point cloud')

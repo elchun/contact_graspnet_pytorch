@@ -1,4 +1,17 @@
-# Contact-GraspNet  
+# Contact-GraspNet Pytorch
+
+This is a pytorch implementation of Contact-GraspNet. The original tensorflow
+implementation can be found at [https://github.com/NVlabs/contact_graspnet](https://github.com/NVlabs/contact_graspnet).
+
+### Disclaimer
+This is not an official implementation of Contact-GraspNet.  The results shown here have been evaluated 
+empirically and may not match the results in the original paper.  This code is provided as-is and is not
+guaranteed to work.  Please use at your own risk.
+
+Additionally, this code implements the core features of Contact-GraspNet as presented 
+by the authors.  It does not implement all possible configuration as implemented in the original
+tensorflow implementation.  If you implement additional features, please consider submitting a pull request.
+
 
 ### Contact-GraspNet: Efficient 6-DoF Grasp Generation in Cluttered Scenes   
 Martin Sundermeyer, Arsalan Mousavian, Rudolph Triebel, Dieter Fox  
@@ -11,40 +24,39 @@ ICRA 2021
 </p>
 
 ## Installation
+This code has been tested with python 3.9.
 
-This code has been tested with python 3.7, tensorflow 2.2, CUDA 11.1
-
-Create the conda env
+Create the conda env.
 ```
 conda env create -f contact_graspnet_env.yml
 ```
 
-### Troubleshooting
-
-- Recompile pointnet2 tf_ops:
-```shell
-sh compile_pointnet_tfops.sh
+Install as a package.
+```
+pip3 install -e .
 ```
 
-### Hardware
-Training: 1x Nvidia GPU >= 24GB VRAM, >=64GB RAM  
-Inference: 1x Nvidia GPU >= 8GB VRAM (might work with less)
+### Troubleshooting
 
-## Download Models and Data
-### Model
-Download trained models from [here](https://drive.google.com/drive/folders/1tBHKf60K8DLM5arm-Chyf7jxkzOr5zGl?usp=sharing) and copy them into the `checkpoints/` folder.
-### Test data
-Download the test data from [here](https://drive.google.com/drive/folders/1v0_QMTUIEOcu09Int5V6N2Nuq7UCtuAA?usp=sharing) and copy them them into the `test_data/` folder.
+N/A
+
+
+### Hardware
+Training:
+  Tested with 1x Nvidia GPU >= 24GB VRAM.  Reduce batch size if you have less VRAM.
+
+Inference: 1x Nvidia GPU >= 8GB VRAM (might work with less).
+
 
 ## Inference
+Model weights are included in the `checkpoints` directory.  Test data can be found in the `test_data` directory.
 
-
-Contact-GraspNet can directly predict a 6-DoF grasp distribution from a raw scene point cloud. However, to obtain object-wise grasps, remove background grasps and to achieve denser proposals it is highly recommended to use (unknown) object segmentation [e.g. [1](https://github.com/chrisdxie/uois), [2](https://arxiv.org/abs/2103.06796)] as preprocessing and then use the resulting segmentation map to crop local regions and filter grasp contacts.
+Contact-GraspNet can directly predict a 6-DoF grasp distribution from a raw scene point cloud. However, to obtain object-wise grasps, remove background grasps and to achieve denser proposals it is highly recommended to use (unknown) object segmentation.  We used [FastSAM](https://github.com/CASIA-IVA-Lab/FastSAM) for unknown object segmentation (in contrast to the original tensorflow implementation which uses [UIOS](https://github.com/chrisdxie/uois)).  Note: Infrastructure for segmentation is not included in this repository.
 
 Given a .npy/.npz file with a depth map (in meters), camera matrix K and (optionally) a 2D segmentation map, execute:
 
 ```shell
-python contact_graspnet/inference.py \
+python contact_graspnet_pytorch/inference.py \
        --np_path=test_data/*.npy \
        --local_regions --filter_grasps
 ```
@@ -52,6 +64,7 @@ python contact_graspnet/inference.py \
 <p align="center">
   <img src="examples/7.png" width="640" title="UOIS + Contact-GraspNet"/>
 </p>
+Note: This image is from the original Contact-GraspNet repo.  Results may vary.
 --> close the window to go to next scene
 
 Given a .npy/.npz file with just a 3D point cloud (in meters), execute [for example](examples/realsense_crop_sigma_001.png):
@@ -126,6 +139,7 @@ python tools/create_table_top_scenes.py /path/to/acronym \
 ```
 
 ## Citation
+If you find this work useful, please consider citing the author's original work and starring this repo.
 
 ```
 @article{sundermeyer2021contact,

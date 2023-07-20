@@ -4,9 +4,7 @@ import random
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(os.path.join(BASE_DIR))
-sys.path.append(os.path.join(BASE_DIR,'contact_graspnet'))
-sys.path.append(os.path.join(BASE_DIR, 'pointnet2',  'tf_ops/grouping'))
-sys.path.append(os.path.join(BASE_DIR, 'pointnet2',  'utils'))
+sys.path.append(os.path.join(BASE_DIR, 'Pointnet_Pointnet2_pytorch'))
 
 from PIL import Image
 import argparse
