@@ -5,8 +5,6 @@ checkpoints/*
 **/*.pyc
 **/__pycache__
 .vscode
-test_data
-acronym/
+acronym/*
 
 *.pt
-FastSAM

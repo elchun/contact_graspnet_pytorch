@@ -32,7 +32,7 @@ import config_utils
 from acronym_dataloader import AcryonymDataset
 # from data import PointCloudReader, load_scene_contacts, center_pc_convert_cam
 # from summaries import build_summary_ops, build_file_writers
-from pytorch_train_ops import load_labels_and_losses, build_train_op
+# from pytorch_train_ops import load_labels_and_losses, build_train_op
 from contact_graspnet_pytorch.contact_graspnet import ContactGraspnet, ContactGraspnetLoss
 from contact_graspnet_pytorch import utils
 from contact_graspnet_pytorch.checkpoints import CheckpointIO 
