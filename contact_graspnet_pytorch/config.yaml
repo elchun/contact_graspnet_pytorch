@@ -184,8 +184,8 @@ OPTIMIZER:
   score_ce_loss_weight: 1
   val_every: 1
 TEST:
-  first_thres: 0.23
-  second_thres: 0.19
+  first_thres: 0.15
+  second_thres: 0.15
   allow_zero_margin: 0
   bin_vals: max
   center_to_tip: 0.0

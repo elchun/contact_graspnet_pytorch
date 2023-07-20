@@ -12,14 +12,6 @@ import torch
 
 os.environ['PYOPENGL_PLATFORM'] = 'egl'  # To get pyrender to work headless
 
-
-# BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-# ROOT_DIR = os.path.dirname(os.path.dirname(BASE_DIR))
-# sys.path.append(os.path.join(BASE_DIR))
-# sys.path.append(os.path.join(ROOT_DIR))
-# sys.path.append(os.path.join(BASE_DIR, 'pointnet2',  'models'))
-# sys.path.append(os.path.join(BASE_DIR, 'pointnet2',  'utils'))
-
 # Import pointnet library
 CONTACT_DIR = os.path.dirname(os.path.abspath(__file__))
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -30,9 +22,6 @@ sys.path.append(os.path.join(BASE_DIR, 'Pointnet_Pointnet2_pytorch'))
 
 import config_utils
 from acronym_dataloader import AcryonymDataset
-# from data import PointCloudReader, load_scene_contacts, center_pc_convert_cam
-# from summaries import build_summary_ops, build_file_writers
-# from pytorch_train_ops import load_labels_and_losses, build_train_op
 from contact_graspnet_pytorch.contact_graspnet import ContactGraspnet, ContactGraspnetLoss
 from contact_graspnet_pytorch import utils
 from contact_graspnet_pytorch.checkpoints import CheckpointIO 
@@ -176,7 +165,6 @@ if __name__ == "__main__":
     if ckpt_dir is None:
         # ckpt_dir is contact_graspnet_year_month_day_hour_minute_second
         ckpt_dir = os.path.join(CONTACT_DIR, '../', f'checkpoints/contact_graspnet_{datetime.now().strftime("Y%YM%mD%d_H%HM%M")}')
-
     
     data_path = FLAGS.data_path
     if data_path is None:

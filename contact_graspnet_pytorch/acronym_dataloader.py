@@ -147,9 +147,18 @@ class AcryonymDataset(Dataset):
 
 
     def __getitem__(self, index):
-        # Data is indexed as follows:
-        # For each scene, we have a set of camera poses.  The scene index is
-        # index // num_cam_poses, the camera pose index is index % num_cam_poses
+        """
+        Loads a scene and (potentially) renders a point cloud.
+
+        Data is indexed as follows:
+            For each scene, we have a set of camera poses.  The scene index is
+            index // num_cam_poses, the camera pose index is index % num_cam_poses
+
+        Arguments:
+            index {int} -- scene_pose_index.
+            
+        Returns:
+            dict -- data dictionary"""
 
         # Offset index to skip train samples
         if not self.train:
@@ -209,7 +218,7 @@ class AcryonymDataset(Dataset):
                 except:
                     print('Error loading scene %s' % scene_id)
                     return self.__getitem__(self._generate_new_idx())
-                pc_cam, pc_normals, camera_pose, depth = self.render_random_scene(estimate_normals=estimate_normals, augment=False)
+                pc_cam, pc_normals, camera_pose, depth = self.render_scene(estimate_normals=estimate_normals, augment=False)
                 camera_pose, pc_cam = self._center_pc_convert_cam(camera_pose, pc_cam)
                 np.savez_compressed(render_path, pc_cam=pc_cam, camera_pose=camera_pose)
                 pc_cam = self._augment_pc(pc_cam)
@@ -228,7 +237,7 @@ class AcryonymDataset(Dataset):
             except:
                 print('Error loading scene %s' % scene_id)
                 return self.__getitem__(self._generate_new_idx())
-            pc_cam, pc_normals, camera_pose, depth = self.render_random_scene(estimate_normals=estimate_normals)
+            pc_cam, pc_normals, camera_pose, depth = self.render_scene(estimate_normals=estimate_normals)
 
             # Convert from OpenGL to OpenCV Coordinates
             camera_pose, pc_cam = self._center_pc_convert_cam(camera_pose, pc_cam)
@@ -264,7 +273,12 @@ class AcryonymDataset(Dataset):
         return data
 
     def __len__(self):
-        # return self._num_train_scenes * len(self._cam_orientations)
+        """
+        Returns the number of rendered scenes in the dataset.
+        
+        Returns:
+            int -- self._num_train_scenes * len(self._cam_orientations)
+        """
         if self.train:
             return self._num_train_scenes
         else:
@@ -274,12 +288,12 @@ class AcryonymDataset(Dataset):
         """
         Randomly generates a new index for the dataset.
         
-        Used if the current index is invalid (e.g. no positive contacts or failed to load
+        Used if the current index is invalid (e.g. no positive contacts or failed to load)
         """
         if self.train:
             return torch.randint(self._num_train_scenes, (1,))[0]
         else:
-            return torch.randint(self._num_test_scenes, (1, ))[0]
+            return torch.randint(self._num_test_scenes, (1,))[0]
 
     def _center_pc_convert_cam(self, cam_pose, point_clouds):
         """
@@ -344,33 +358,12 @@ class AcryonymDataset(Dataset):
             '009296',
         ]
 
-
-        # Try to load all the files (kinda sketch but its pretty fast)
-        t = None
         for contact_path in scene_contacts_paths:
             if contact_path.split('/')[-1].split('.')[0] in corrupt_list:
                 continue
-            # if not debug:
-            #     try:
-            #         npz = np.load(contact_path, allow_pickle=False)
-            #         npz_files = npz.files
-            #         keys = [
-            #             'scene_contact_points',
-            #             'obj_paths',
-            #             'obj_transforms',
-            #             'obj_scales',
-            #             'grasp_transforms'
-            #         ]
-            #         for key in keys:
-            #             t = npz[key]
-            #     except:
-            #         print('corrupt, ignoring...')
-            #         print(contact_path)
-            #         continue
             contact_id = contact_path.split('/')[-1].split('.')[0]
             valid_scene_contacts.append(contact_id)
 
-        del t
         return scene_contacts_dir, valid_scene_contacts
 
     def _load_contacts(self, scene_id):
@@ -542,61 +535,8 @@ class AcryonymDataset(Dataset):
             mask = np.logical_and(mask, labels != l)
         return pc[mask]
 
-    def get_scene_batch(self, scene_idx=None, return_segmap=False, save=False):
-        """
-        NOT USED
-        Render a batch of scene point clouds
 
-        Keyword Arguments:
-            scene_idx {int} -- index of the scene (default: {None})
-            return_segmap {bool} -- whether to render a segmap of objects (default: {False})
-            save {bool} -- Save training/validation data to npz file for later inference (default: {False})
-
-        Returns:
-            [batch_data, cam_poses, scene_idx] -- batch of rendered point clouds, camera poses and the scene_idx
-        """
-        dims = 6 if self._estimate_normals else 3
-        batch_data = np.empty((self._batch_size, self._raw_num_points, dims), dtype=np.float32)
-        cam_poses = np.empty((self._batch_size, 4, 4), dtype=np.float32)
-
-        if scene_idx is None:
-            scene_idx = np.random.randint(0,self._num_train_samples)
-
-        obj_paths = [os.path.join(self._root_folder, p) for p in self._scene_obj_paths[scene_idx]]
-        mesh_scales = self._scene_obj_scales[scene_idx]
-        obj_trafos = self._scene_obj_transforms[scene_idx]
-
-        # Add objects to scene?
-        self.change_scene(obj_paths, mesh_scales, obj_trafos, visualize=False)
-
-        batch_segmap, batch_obj_pcs = [], []
-        for i in range(self._batch_size):
-            # 0.005s
-            pc_cam, pc_normals, camera_pose, depth = self.render_random_scene(estimate_normals = self._estimate_normals)
-
-            if return_segmap:
-                segmap, _, obj_pcs = self._renderer.render_labels(depth, obj_paths, mesh_scales, render_pc=True)
-                batch_obj_pcs.append(obj_pcs)
-                batch_segmap.append(segmap)
-
-            batch_data[i,:,0:3] = pc_cam[:,:3]
-            if self._estimate_normals:
-                batch_data[i,:,3:6] = pc_normals[:,:3]
-            cam_poses[i,:,:] = camera_pose
-
-        if save:
-            K = np.array([[616.36529541,0,310.25881958 ],[0,616.20294189,236.59980774],[0,0,1]])
-            data = {'depth':depth, 'K':K, 'camera_pose':camera_pose, 'scene_idx':scene_idx}
-            if return_segmap:
-                data.update(segmap=segmap)
-            np.savez('results/{}_acronym.npz'.format(scene_idx), data)
-
-        if return_segmap:
-            return batch_data, cam_poses, scene_idx, batch_segmap, batch_obj_pcs
-        else:
-            return batch_data, cam_poses, scene_idx
-
-    def render_random_scene(self, estimate_normals=False, camera_pose=None, augment=True):
+    def render_scene(self, estimate_normals=False, camera_pose=None, augment=True):
         """
         Renders scene depth map, transforms to regularized pointcloud and applies augmentations
 
@@ -627,7 +567,6 @@ class AcryonymDataset(Dataset):
 
         return pc, pc_normals, camera_pose, depth
     
-    # def load_scene(self, scene_id: str, cam_pose_id: str):
     def load_scene(self, render_path):
         """
         Return point cloud and camera pose.  Used for loading saved renders.
