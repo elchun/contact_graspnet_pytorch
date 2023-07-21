@@ -16,7 +16,7 @@ import trimesh.transformations as tra
 from scipy.spatial import cKDTree
 
 import provider
-from scene_renderer import SceneRenderer
+from contact_graspnet_pytorch.scene_renderer import SceneRenderer
 
 import torch
 import torch.nn.functional as F
