@@ -8,4 +8,6 @@ checkpoints/*
 acronym/*
 !acronym/*.py
 
+*.egg-info
+
 *.pt

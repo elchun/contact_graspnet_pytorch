@@ -59,7 +59,7 @@ def read_object_grasp_data_acronym(root_folder, h5_path):
     
     abs_h5_path = os.path.join(root_folder, 'grasps', h5_path)
     data = h5py.File(abs_h5_path, "r")
-    mesh_fname = os.path.join(root_folder, data["object/file"][()])#.decode('utf-8')
+    mesh_fname = os.path.join(root_folder, data["object/file"][()].decode('utf-8'))
     mesh_scale = data["object/scale"][()]
     grasps = np.array(data["grasps/transforms"])
     success = np.array(data["grasps/qualities/flex/object_in_gripper"])
@@ -117,6 +117,7 @@ if __name__ == '__main__':
     pcreader = PointCloudReader(root_folder=args.root_folder)
 
     grasp_paths = glob.glob(os.path.join(args.root_folder, 'grasps', '*.h5'))
+    grasp_paths = [grasp_path.split('/')[-1] for grasp_path in grasp_paths]
 
     # -- Remove objects that failed to waterproof -- #
     with open(os.path.join(args.root_folder, 'failed.txt'), 'r') as f:

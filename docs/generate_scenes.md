@@ -9,6 +9,9 @@ The scene_contacts downloaded above are generated from the Acronym dataset. To g
 
 ## Generate Contact Points
 
+
+DOES NOT WORK YET
+
 First, object-wise 6-DoF grasps are mapped to their contact points saved in mesh_contacts.
 These will be used when we train the network.
 
