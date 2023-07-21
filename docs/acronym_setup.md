@@ -1,6 +1,6 @@
 # Set up Acronym Dataset
 
-Instructions are based off of [https://github.com/NVlabs/acronym#using-the-full-acronym-dataset].
+Instructions are based off of https://github.com/NVlabs/acronym#using-the-full-acronym-dataset.
 
 ## Download Data
 
