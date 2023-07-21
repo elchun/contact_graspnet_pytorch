@@ -107,7 +107,7 @@ def process_hash(h):
         return
             
     # Simplify the object
-    completed = subprocess.run([SIMPLIFY_PATH, "-i", temp_name, "-o", outfile, "-m", "-r", "0.02"],  stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    completed = subprocess.run(["timeout", "-sKILL", "60", SIMPLIFY_PATH, "-i", temp_name, "-o", outfile, "-m", "-r", "0.02"],  stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
     if completed.returncode != 0:
         print(f"Skipping object (simplify failed): {h}")

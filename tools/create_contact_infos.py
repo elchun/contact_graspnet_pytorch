@@ -8,8 +8,8 @@ import sys
 ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(ROOT_DIR)
 
-from contact_graspnet.data import PointCloudReader
-from contact_graspnet.mesh_utils import in_collision_with_gripper, grasp_contact_location
+from contact_graspnet_pytorch.data import PointCloudReader
+from contact_graspnet_pytorch.mesh_utils import in_collision_with_gripper, grasp_contact_location
 
 def grasps_contact_info(grasp_tfs, successfuls, obj_mesh, check_collisions=True):
     """
@@ -117,6 +117,20 @@ if __name__ == '__main__':
     pcreader = PointCloudReader(root_folder=args.root_folder)
 
     grasp_paths = glob.glob(os.path.join(args.root_folder, 'grasps', '*.h5'))
+
+    # -- Remove objects that failed to waterproof -- #
+    with open(os.path.join(args.root_folder, 'failed.txt'), 'r') as f:
+        failed_meshes = [line.strip() for line in f.readlines()]
+    
+    good_grasp_paths = []
+    for grasp_path in grasp_paths:
+        shapenet_id = grasp_path.split('/')[-1].split('_')[1]
+        if shapenet_id not in failed_meshes:
+            good_grasp_paths.append(grasp_path)
+        else:
+            print('Skipping failed mesh', shapenet_id)
+    
+    grasp_paths = good_grasp_paths
         
     print('Computing grasp contacts...')
     for grasp_path in grasp_paths:
