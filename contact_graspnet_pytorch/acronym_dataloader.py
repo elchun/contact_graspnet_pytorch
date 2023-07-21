@@ -75,6 +75,10 @@ class AcryonymDataset(Dataset):
         self.train = train
         self.use_saved_renders = use_saved_renders
 
+        if use_saved_renders:
+            if not os.path.exists(os.path.join(global_config['DATA']['data_path'], 'renders')):
+                os.mkdir(os.path.join(global_config['DATA']['data_path'], 'renders'))
+
         # TODO: Add train vs test split
         # -- Index data -- #
         self.scene_contacts_dir, self.valid_scene_contacts = \
