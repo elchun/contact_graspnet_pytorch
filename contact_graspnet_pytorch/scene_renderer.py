@@ -12,7 +12,7 @@ import pyrender
 import trimesh
 import trimesh.transformations as tra
 
-from mesh_utils import Object
+from contact_graspnet_pytorch.mesh_utils import Object
 
 class SceneRenderer:
     def __init__(self, intrinsics=None, fov=np.pi / 6, caching=True, viewing_mode=False):
