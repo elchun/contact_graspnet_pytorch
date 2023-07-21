@@ -16,7 +16,7 @@ import trimesh.transformations as tra
 from scipy.spatial import cKDTree
 
 import provider
-from scene_renderer import SceneRenderer
+from contact_graspnet_pytorch.scene_renderer import SceneRenderer
 
 def load_scene_contacts(dataset_folder, test_split_only=False, num_test=None, scene_contacts_path='scene_contacts_new'):
     """
