@@ -90,44 +90,38 @@ python contact_graspnet/inference.py --np_path=/path/to/your/pc.npy \
 
 Follow the instructions at [docs/acronym_setup.md](docs/acronym_setup.md) to set up the Acronym dataset.
 
-### Train Contact-GraspNet
-TODO FIX BELOW HERE
-
+### Set Environment Variables
 When training on a headless server set the environment variable
 ```shell
 export PYOPENGL_PLATFORM='egl'
 ```
+This is also done automatically in the training script.
 
-Start training with config `contact_graspnet/config.yaml`
+### Quickstart Training 
+
+Start training with config `contact_graspnet_pytorch/config.yaml`
+```
+python3 contact_graspnet_pytorch/train.py --data_path acronym/
+```
+
+### Additional Training Options
+
+To set a custom model name and custom data path:
+
 ```
 python contact_graspnet/train.py --ckpt_dir checkpoints/your_model_name \
                                  --data_path /path/to/acronym/data
 ```
 
+To restart a previous batch
+```
+python contact_graspnet/train.py --ckpt_dir checkpoints/previous_model_name \
+                                 --data_path /path/to/acronym/data
+```
+
 ### Generate Contact Grasps and Scenes yourself (optional)
 
-The `scene_contacts` downloaded above are generated from the Acronym dataset. To generate/visualize table-top scenes yourself, also pip install the [acronym_tools]((https://github.com/NVlabs/acronym)) package in your conda environment as described in the acronym repository.
-
-In the first step, object-wise 6-DoF grasps are mapped to their contact points saved in `mesh_contacts`
-
-```
-python tools/create_contact_infos.py /path/to/acronym
-```
-
-From the generated `mesh_contacts` you can create table-top scenes which are saved in `scene_contacts` with
-
-```
-python tools/create_table_top_scenes.py /path/to/acronym
-```
-
-Takes ~3 days in a single thread. Run the command several times to process on multiple cores in parallel.
-
-You can also visualize existing table-top scenes and grasps
-
-```
-python tools/create_table_top_scenes.py /path/to/acronym \
-       --load_existing scene_contacts/000000.npz -vis
-```
+See [docs/generate_scenes.md](docs/generate_scenes.md) for instructions on how to generate scenes and grasps yourself.
 
 ## Citation
 If you find this work useful, please consider citing the author's original work and starring this repo.

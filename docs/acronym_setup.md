@@ -34,7 +34,7 @@ cd build
 cmake .. -DCMAKE_BUILD_TYPE=Release
 make
 ```
-Note: We use a different `git clone` command.  The original repo's command 
+Note: We use a different `git clone` command than the Manifold repo.  The original repo's command 
 hangs.
 
 Additional information can be found at https://github.com/hjwdzh/Manifold.
@@ -74,9 +74,7 @@ Additionally, if your computer crashes, try reducing the number of cpu cores
 used in `waterproof_meshes.py`.
 
 ## Download Scene Data
-Download the training data consisting of 10000 table top training scenes 
-with contact grasp information from [here](https://drive.google.com/drive/folders/1eeEXAISPaStZyjMX8BHR08cdQY4HF4s0?usp=sharing) and extract it to the `acronym` folder:
-
+Download `scene_contacts.zip` and `splits.zip` from [here](https://drive.google.com/drive/folders/1eeEXAISPaStZyjMX8BHR08cdQY4HF4s0?usp=sharing) and extract both to the `acronym` folder:
 
 The directory structure should look like this (`models` and `Manifold` are 
 optional):
