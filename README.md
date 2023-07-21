@@ -86,21 +86,12 @@ python contact_graspnet/inference.py --np_path=/path/to/your/pc.npy \
 
 ## Training
 
-### Download Data 
+### Set up Acronym Dataset
 
-Download the Acronym dataset, ShapeNet meshes and make them watertight, following these [steps](https://github.com/NVlabs/acronym#using-the-full-acronym-dataset).
-
-Download the training data consisting of 10000 table top training scenes with contact grasp information from [here](https://drive.google.com/drive/folders/1eeEXAISPaStZyjMX8BHR08cdQY4HF4s0?usp=sharing) and extract it to the same folder:
-
-```
-acronym
-├── grasps
-├── meshes
-├── scene_contacts
-└── splits
-```
+Follow the instructions at [docs/acronym_setup.md](docs/acronym_setup.md) to set up the Acronym dataset.
 
 ### Train Contact-GraspNet
+TODO FIX BELOW HERE
 
 When training on a headless server set the environment variable
 ```shell
