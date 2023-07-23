@@ -65,7 +65,7 @@ document any meshes that failed to waterproof.
 This may take a while.  After this is done, it is safe to
 remove the `acronym/models` directory.
 
-### Degugging
+### Debugging
 
 If a large number of files appear to be missing, try re-downloading the 
 ShapeNetSem meshes.
