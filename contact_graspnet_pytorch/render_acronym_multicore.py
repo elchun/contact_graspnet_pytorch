@@ -85,9 +85,9 @@ class AcronymRenderScene():
         render_dir_path = os.path.join(self.data_path, 'renders')
 
         # TODO: Fix this in the paths
-        for i in range(obj_paths.shape[0]):
-            parts = obj_paths[i].split('/')
-            obj_paths[i] = os.path.join(*parts[0:-2], parts[-1])
+        # for i in range(obj_paths.shape[0]):
+        #     parts = obj_paths[i].split('/')
+        #     obj_paths[i] = os.path.join(*parts[0:-2], parts[-1])
 
         # -- Build and Render Scene -- #
         obj_paths = [os.path.join(self.data_path, p) for p in obj_paths]
