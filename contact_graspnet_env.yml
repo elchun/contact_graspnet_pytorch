@@ -269,4 +269,5 @@ dependencies:
       - traitsui==8.0.0
       - vtk==9.2.6
       - werkzeug==2.2.3
+      - rtree
 prefix: /home/user/miniconda3/envs/c_graspnet_torch

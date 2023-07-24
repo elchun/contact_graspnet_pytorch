@@ -4,6 +4,8 @@ import h5py
 import glob
 import argparse
 import sys
+import tqdm
+from multiprocessing import Pool, cpu_count
 
 ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(ROOT_DIR)
@@ -92,7 +94,8 @@ def save_contact_data(pcreader, grasp_path, target_path='mesh_contacts'):
         return
 
     output_grasps, output_labels, cad_path, cad_scale = read_object_grasp_data_acronym(pcreader._root_folder, grasp_path)
-    pcreader.change_object(cad_path, cad_scale)
+    # pcreader.change_object(cad_path, cad_scale)
+    pcreader.change_scene([cad_path], [cad_scale], [np.eye(4)])
 
     context = pcreader._renderer._cache[(cad_path,cad_scale)]
     obj_mesh = context['tmesh']
@@ -134,6 +137,18 @@ if __name__ == '__main__':
     grasp_paths = good_grasp_paths
         
     print('Computing grasp contacts...')
-    for grasp_path in grasp_paths:
+    for grasp_path in tqdm.tqdm(grasp_paths):
         print('Reading: ', grasp_path)
         save_contact_data(pcreader, grasp_path)
+
+    # def save_contact_data_wrapper(grasp_path):
+    #     save_contact_data(pcreader, grasp_path)
+    
+    # with Pool(cpu_count() - 4) as p:
+    #     examples = list(
+    #         tqdm.tqdm(
+    #             p.imap_unordered(save_contact_data_wrapper,
+    #                              grasp_paths),
+    #             total=len(grasp_paths)
+    #         )
+    #     )

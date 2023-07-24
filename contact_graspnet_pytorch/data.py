@@ -674,6 +674,7 @@ class PointCloudReader:
             cad_path {str} -- path to CAD model
             cad_scale {float} -- scale of CAD model
         """
+        raise NotImplementedError
 
         self._renderer.change_object(cad_path, cad_scale)
 

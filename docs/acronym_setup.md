@@ -73,6 +73,26 @@ ShapeNetSem meshes.
 Additionally, if your computer crashes, try reducing the number of cpu cores 
 used in `waterproof_meshes.py`.
 
+## Refactory Mesh Directory
+A number of the scripts expect the mesh directory to include object categories 
+in the file path.
+
+e.g.
+
+```
+acronym 
+├── meshes
+│   ├── airplane
+│   │   ├── id_1.obj
+│   │   ├── id_2.obj
+```
+
+Run the following script to restructure the mesh directory:
+
+```
+python3 tools/refactor_mesh_dir.py
+```
+
 ## Download Scene Data
 Download `scene_contacts.zip` and `splits.zip` from [here](https://drive.google.com/drive/folders/1eeEXAISPaStZyjMX8BHR08cdQY4HF4s0?usp=sharing) and extract both to the `acronym` folder:
 
