@@ -6,7 +6,7 @@ Instructions are based off of https://github.com/NVlabs/acronym#using-the-full-a
 
 1. Download the acronym dataset and extract it to the `acronym/grasps` directory: [acronym.tar.gz](https://drive.google.com/file/d/1zcPARTCQx2oeiKk7a-wdN_CN-RUVX56c/view?usp=sharing)
 
-2. Downlaod the ShapeNetSem meshes (models-OBJ.zip) from [https://www.shapenet.org/](https://www.shapenet.org/) and
+2. Download the ShapeNetSem meshes (models-OBJ.zip) from [https://www.shapenet.org/](https://www.shapenet.org/) and
 extract it to `acronym/models`.
 
 The directory structure should look like this:
@@ -65,7 +65,7 @@ document any meshes that failed to waterproof.
 This may take a while.  After this is done, it is safe to
 remove the `acronym/models` directory.
 
-### Degugging
+### Debugging
 
 If a large number of files appear to be missing, try re-downloading the 
 ShapeNetSem meshes.
