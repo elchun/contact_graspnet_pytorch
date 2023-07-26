@@ -4,7 +4,7 @@ import argparse
 
 import torch
 import numpy as np
-from contact_graspnet_pytorch.contact_grasp_estimator_pytorch import GraspEstimator
+from contact_graspnet_pytorch.contact_grasp_estimator import GraspEstimator
 from contact_graspnet_pytorch import config_utils
 
 from contact_graspnet_pytorch.visualization_utils_o3d import visualize_grasps, show_image
