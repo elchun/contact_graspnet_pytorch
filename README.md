@@ -4,18 +4,18 @@ This is a pytorch implementation of Contact-GraspNet. The original tensorflow
 implementation can be found at [https://github.com/NVlabs/contact_graspnet](https://github.com/NVlabs/contact_graspnet).
 
 ### Disclaimer
-This is not an official implementation of Contact-GraspNet.  The results shown here have been evaluated 
+This is not an official implementation of Contact-GraspNet.  The results shown here have been evaluated
 empirically and may not match the results in the original paper.  This code is provided as-is and is not
 guaranteed to work.  Please use at your own risk.
 
-Additionally, this code implements the core features of Contact-GraspNet as presented 
+Additionally, this code implements the core features of Contact-GraspNet as presented
 by the authors.  It does not implement all possible configuration as implemented in the original
 tensorflow implementation.  If you implement additional features, please consider submitting a pull request.
 
 
-### Contact-GraspNet: Efficient 6-DoF Grasp Generation in Cluttered Scenes   
-Martin Sundermeyer, Arsalan Mousavian, Rudolph Triebel, Dieter Fox  
-ICRA 2021    
+### Contact-GraspNet: Efficient 6-DoF Grasp Generation in Cluttered Scenes
+Martin Sundermeyer, Arsalan Mousavian, Rudolph Triebel, Dieter Fox
+ICRA 2021
 
 [paper](https://arxiv.org/abs/2103.14127), [project page](https://research.nvidia.com/publication/2021-03_Contact-GraspNet%3A--Efficient), [video](http://www.youtube.com/watch?v=qRLKYSLXElM)
 
@@ -57,7 +57,7 @@ Given a .npy/.npz file with a depth map (in meters), camera matrix K and (option
 
 ```shell
 python contact_graspnet_pytorch/inference.py \
-       --np_path=test_data/*.npy \
+       --np_path="test_data/*.npy" \
        --local_regions --filter_grasps
 ```
 
@@ -74,14 +74,14 @@ python contact_graspnet/inference.py --np_path=/path/to/your/pc.npy \
                                      --z_range=[0.2,1.1]
 ```
 
-`--np_path`: input .npz/.npy file(s) with 'depth', 'K' and optionally 'segmap', 'rgb' keys. For processing a Nx3 point cloud instead use 'xzy' and optionally 'xyz_color' as keys.  
-`--ckpt_dir`: relative path to checkpooint directory. By default `checkpoint/scene_test_2048_bs3_hor_sigma_001` is used. For very clean / noisy depth data consider `scene_2048_bs3_rad2_32` / `scene_test_2048_bs3_hor_sigma_0025` trained with no / strong noise.   
-`--local_regions`: Crop 3D local regions around object segments for inference. (only works with segmap)  
-`--filter_grasps`: Filter grasp contacts such that they only lie on the surface of object segments. (only works with segmap)  
-`--skip_border_objects` Ignore segments touching the depth map boundary.  
-`--forward_passes` number of (batched) forward passes. Increase to sample more potential grasp contacts.  
-`--z_range` [min, max] z values in meter used to crop the input point cloud, e.g. to avoid grasps in the foreground/background(as above).  
-`--arg_configs TEST.second_thres:0.19 TEST.first_thres:0.23` Overwrite config confidence thresholds for successful grasp contacts to get more/less grasp proposals 
+`--np_path`: input .npz/.npy file(s) with 'depth', 'K' and optionally 'segmap', 'rgb' keys. For processing a Nx3 point cloud instead use 'xzy' and optionally 'xyz_color' as keys.
+`--ckpt_dir`: relative path to checkpooint directory. By default `checkpoint/scene_test_2048_bs3_hor_sigma_001` is used. For very clean / noisy depth data consider `scene_2048_bs3_rad2_32` / `scene_test_2048_bs3_hor_sigma_0025` trained with no / strong noise.
+`--local_regions`: Crop 3D local regions around object segments for inference. (only works with segmap)
+`--filter_grasps`: Filter grasp contacts such that they only lie on the surface of object segments. (only works with segmap)
+`--skip_border_objects` Ignore segments touching the depth map boundary.
+`--forward_passes` number of (batched) forward passes. Increase to sample more potential grasp contacts.
+`--z_range` [min, max] z values in meter used to crop the input point cloud, e.g. to avoid grasps in the foreground/background(as above).
+`--arg_configs TEST.second_thres:0.19 TEST.first_thres:0.23` Overwrite config confidence thresholds for successful grasp contacts to get more/less grasp proposals
 
 
 ## Training
@@ -97,7 +97,7 @@ export PYOPENGL_PLATFORM='egl'
 ```
 This is also done automatically in the training script.
 
-### Quickstart Training 
+### Quickstart Training
 
 Start training with config `contact_graspnet_pytorch/config.yaml`
 ```

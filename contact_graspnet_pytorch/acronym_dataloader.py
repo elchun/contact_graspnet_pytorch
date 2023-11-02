@@ -75,9 +75,9 @@ class AcryonymDataset(Dataset):
         self.train = train
         self.use_saved_renders = use_saved_renders
 
-        if use_saved_renders:
-            if not os.path.exists(os.path.join(global_config['DATA']['data_path'], 'renders')):
-                os.mkdir(os.path.join(global_config['DATA']['data_path'], 'renders'))
+        # if use_saved_renders:
+        if not os.path.exists(os.path.join(global_config['DATA']['data_path'], 'renders')):
+            os.mkdir(os.path.join(global_config['DATA']['data_path'], 'renders'))
 
         # TODO: Add train vs test split
         # -- Index data -- #
@@ -160,7 +160,7 @@ class AcryonymDataset(Dataset):
 
         Arguments:
             index {int} -- scene_pose_index.
-            
+
         Returns:
             dict -- data dictionary"""
 
@@ -168,7 +168,7 @@ class AcryonymDataset(Dataset):
         if not self.train:
             index = index + self._num_train_scenes
 
-        scene_index = index 
+        scene_index = index
         cam_pose_index = random.randint(0, self._num_saved_cam_poses)
 
         if self._estimate_normals:
@@ -279,7 +279,7 @@ class AcryonymDataset(Dataset):
     def __len__(self):
         """
         Returns the number of rendered scenes in the dataset.
-        
+
         Returns:
             int -- self._num_train_scenes * len(self._cam_orientations)
         """
@@ -291,7 +291,7 @@ class AcryonymDataset(Dataset):
     def _generate_new_idx(self):
         """
         Randomly generates a new index for the dataset.
-        
+
         Used if the current index is invalid (e.g. no positive contacts or failed to load)
         """
         if self.train:
@@ -357,7 +357,7 @@ class AcryonymDataset(Dataset):
             '001993',
 
             # No contacts
-            '008509',  
+            '008509',
             '007996',
             '009296',
         ]
@@ -570,13 +570,13 @@ class AcryonymDataset(Dataset):
         pc_normals = utils.estimate_normals_cam_from_pc(pc[:,:3], raw_num_points=self._raw_num_points) if estimate_normals else []
 
         return pc, pc_normals, camera_pose, depth
-    
+
     def load_scene(self, render_path):
         """
         Return point cloud and camera pose.  Used for loading saved renders.
         Arguments:
             scene_id {str} -- scene index
-            cam_pose_id {str} -- camera pose index as length 3 string with 
+            cam_pose_id {str} -- camera pose index as length 3 string with
                                 leading zeros if necessary.
 
         Returns:

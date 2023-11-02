@@ -1,5 +1,7 @@
+*.pt
 results
 checkpoints/*
+!checkpoints/contact_graspnet/checkpoints/*.pt
 !checkpoints/contact_graspnet
 *.npz
 **/*.pyc
@@ -10,4 +12,3 @@ acronym/*
 
 *.egg-info
 
-*.pt
