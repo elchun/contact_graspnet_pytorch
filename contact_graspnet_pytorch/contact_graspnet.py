@@ -240,7 +240,7 @@ class ContactGraspnet(nn.Module):
 
         # TODO Start here
         pred_grasps_cam = self.build_6d_grasp(approach_dir_head_orthog.permute(0, 2, 1),
-                                              grasp_dir_head.permute(0, 2, 1),
+                                              grasp_dir_head_normed.permute(0, 2, 1),
                                               pred_points.permute(0, 2, 1),
                                               offset_bin_pred_vals.permute(0, 2, 1),
                                               use_torch=True)  # B x N x 4 x 4
